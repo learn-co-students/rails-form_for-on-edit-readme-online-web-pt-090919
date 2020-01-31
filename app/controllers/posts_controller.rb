@@ -25,7 +25,10 @@ class PostsController < ApplicationController
 
 	def update
 	  @post = Post.find(params[:id])
-	  @post.update(title: params[:title], description: params[:description])
-	  redirect_to post_path(@post)
+		# @post.update(title: params[:title], description: params[:description])
+		#attr now nested within :post hash
+		# must be conscious of which attr to update, hence `.permit`
+		@post.update(params.require(:post).permit(:title, :description))
+		redirect_to post_path(@post)	
 	end
 end
